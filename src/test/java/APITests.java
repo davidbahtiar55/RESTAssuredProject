@@ -1,5 +1,6 @@
-import io.restassured.RestAssured;
+import static io.restassured.RestAssured.*;
 import io.restassured.response.Response;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class APITests {
@@ -7,7 +8,7 @@ public class APITests {
     @Test
     void test1(){
 
-        Response response = RestAssured.get("https://reqres.in/api/users?page=2");
+        Response response = get("https://reqres.in/api/users?page=2");
 
         System.out.println("Status Code : "+response.asString());
         System.out.println("Status Code : "+response.getStatusCode());
@@ -15,6 +16,16 @@ public class APITests {
         System.out.println("Time taken : "+response.getTime());
         System.out.println("Header : "+response.getHeader("content-type"));
 
+        int statusCode = response.statusCode();
+        Assert.assertEquals(statusCode, 200);
+    }
+
+    @Test
+    void test2(){
+        given().
+                get("https://reqres.in/api/users?page=2").
+                then().
+                statusCode(200);
     }
 
 }
